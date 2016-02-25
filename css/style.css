@@ -1,0 +1,29 @@
+
+html {
+    height:100%;
+}
+
+
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#wrapper {
+    position: relative;
+}
+
+#map {
+    height: 500px;
+}
+
+#list-container {
+    position: absolute;
+    /*background-color: transparent;*/
+    background: rgba(255,255,255,0.7);
+    top: 40px;
+    left: 10px;
+    width: 200px;
+    z-index: 99;
+}

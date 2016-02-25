@@ -1,5 +1,5 @@
 
-var venueLocations = ko.observableArray([]);
+//var venueLocations = ko.observableArray([]);
 
 var venueLoader = function () {
 
@@ -25,7 +25,7 @@ var venueLoader = function () {
         //$(document).ready(function () {
         //    ko.applyBindings(viewModel());
         //});
-        ko.applyBindings(viewModel.init());
+        ko.applyBindings(viewModel());
     });
 
 
@@ -33,7 +33,7 @@ var venueLoader = function () {
 
 
 
-var Venue = function (venuedata) {
+/*var Venue = function (venuedata) {
     this.name = venuedata.name;
     this.address = venuedata.address;
     this.state = venuedata.state;
@@ -41,8 +41,8 @@ var Venue = function (venuedata) {
     this.id = venuedata.id;
     this.lat = venuedata.location.lat;
     this.lng = venuedata.location.lon;
-};
+};*/
 
 
 
-venueLoader();
+//venueLoader();
