@@ -34,7 +34,8 @@ var ViewModel = function () {
             return that.items();
         } else {
             return ko.utils.arrayFilter(that.items(), function (item) {
-                return model.stringStartsWith(item.name.toLowerCase(), filter);
+                //return model.stringStartsWith(item.name.toLowerCase(), filter);
+                return model.stringContains(item.name.toLowerCase(), filter);
             })
         }
     }, this);
@@ -138,6 +139,11 @@ var model = {
         } else {
             return string.substring(0, startsWith.length) === startsWith;
         }
+    },
+
+    // utility function:
+    stringContains: function (string, substring) {
+        return string.indexOf(substring) >= 0;
     }
 
 
