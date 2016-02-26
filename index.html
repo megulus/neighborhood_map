@@ -13,9 +13,10 @@
 <body>
     <div id="wrapper">
         <div id="map"></div>
+        <h3 id="filter">Filter: <input data-bind="value: filter, valueUpdate: 'afterkeydown'"></h3>
         <div id="list-container">
             <h3>Venues:</h3>
-            <ul data-bind="foreach: allVenues">
+            <ul data-bind="foreach: filteredByName">
                 <li data-bind="text: name, click: $parent.setCurrentVenue"></li>
             </ul>
         </div>

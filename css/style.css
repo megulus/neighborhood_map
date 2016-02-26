@@ -14,14 +14,23 @@ body {
     position: relative;
 }
 
+#filter {
+    position: absolute;
+    background: rgba(255,255,255,0.9);
+    top: 40px;
+    left: 10px;
+    z-index:99;
+    height: 30px;
+}
+
 #map {
     height: 750px;
 }
 
 #list-container {
     position: absolute;
-    background: rgba(255,255,255,0.8);
-    top: 40px;
+    background: rgba(255,255,255,0.9);
+    top: 90px;
     left: 10px;
     width: 200px;
     z-index: 99;
@@ -32,6 +41,7 @@ ul {
     padding-left: 10px;
 }
 
+
 li {
     list-style-type: none;
     border-top: 1px solid #CCC;
@@ -41,4 +51,13 @@ li {
 
 li:first-child {
     border-top: none;
+}
+
+li:hover {
+    background: cornflowerblue;
+}
+
+li:active {
+    color: purple;
+    background: grey;
 }
