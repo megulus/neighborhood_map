@@ -1,26 +1,22 @@
 var viewModel = function () {
 
 
-    model.init();
-
     var that = this;
 
-    this.allMarkers = ko.observableArray([]);
-    model.mapMarkerList.forEach(function (markerObj) {
-        that.allMarkers.push(markerObj);
-        markerObj.setMap(map);
-
+    this.allVenues = ko.observableArray([]);
+    model.venueLocations.forEach(function (venueObj) {
+        that.allVenues.push(venueObj);
     });
 
+    this.currentVenue = ko.observable();
 
-    this.addMarker = function (marker) {
-        marker.setMap(map);
+    this.setCurrentVenue = function () {
+        that.currentVenue(this);
+        id = that.currentVenue().id;
+        console.log(id);
     };
 
 
-    this.removeMarker = function (marker) {
-        marker.setMap(null);
-    };
 
 };
 
@@ -28,17 +24,9 @@ var model = {
 
 
     init: function () {
-        this.venueLocations = ko.observableArray([]);
+        this.venueLocations = [];
         this.venueIDs = new Set();
-        this.mapMarkerList = [];
-        var that = this;
-        this.venueLocations().forEach(function (venueObj) {
-            that.mapMarkerList.push(new google.maps.Marker({
-                position: {lat: venueObj.lat, lng: venueObj.lng},
-                title: venueObj.name
-
-            }));
-        });
+        this.venueDict = {};
         this.findEvents();
     },
 
@@ -61,6 +49,7 @@ var model = {
                     that.venueLocations.push(new Venue(venueObj));
                 }
             });
+            ko.applyBindings(new viewModel());
         });
 
 
@@ -85,6 +74,7 @@ var model = {
             infowindow.open(map, marker);
         });
         this.venueIDs.add(venueObj.id);
+        this.venueDict[venueObj.id] = marker;
     }
 
 
@@ -103,9 +93,7 @@ var Venue = function (venuedata) {
 };
 
 
-$(document).ready(function () {
-    ko.applyBindings(viewModel());
-});
+
 
 
 /* initialize map and display on page
@@ -125,5 +113,6 @@ var initMap = function () {
 
 };
 
+model.init();
 
 

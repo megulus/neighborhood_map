@@ -13,7 +13,12 @@
 <body>
     <div id="wrapper">
         <div id="map"></div>
-        <div id="list-container">Test</div>
+        <div id="list-container">
+            <h3>Venues:</h3>
+            <ul data-bind="foreach: allVenues">
+                <li data-bind="text: name, click: $parent.setCurrentVenue"></li>
+            </ul>
+        </div>
     </div>
 
 

@@ -15,15 +15,30 @@ body {
 }
 
 #map {
-    height: 500px;
+    height: 750px;
 }
 
 #list-container {
     position: absolute;
-    /*background-color: transparent;*/
-    background: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.8);
     top: 40px;
     left: 10px;
     width: 200px;
     z-index: 99;
+    padding: 0;
+}
+
+ul {
+    padding-left: 10px;
+}
+
+li {
+    list-style-type: none;
+    border-top: 1px solid #CCC;
+    padding-top: 10px;
+    padding-left: 0;
+}
+
+li:first-child {
+    border-top: none;
 }
