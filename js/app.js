@@ -3,10 +3,10 @@ var ViewModel = function () {
 
     var that = this;
 
-    this.allVenues = ko.observableArray([]);
+    /*this.allVenues = ko.observableArray([]);
     model.venueLocations.forEach(function (venueObj) {
         that.allVenues.push(venueObj);
-    });
+    });*/
 
     this.currentVenue = ko.observable();
 
@@ -23,7 +23,7 @@ var ViewModel = function () {
 
     this.filter = ko.observable('');
     this.items = ko.observableArray([]);
-    this.allVenues().forEach(function (venue) {
+    model.venueLocations.forEach(function (venue) {
         that.items.push(venue);
     });
 
