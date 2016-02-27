@@ -17,26 +17,32 @@ var viewModel = {
 
 
     setCurrentVenue: function () {
-        if (viewModel.currentVenue()) {
-            var id = viewModel.currentVenue().id;
-            model.closeWindow(id);
-        }
         viewModel.currentVenue(this);
-        id = viewModel.currentVenue().id;
-        model.openWindow(id);
-        model.bounceMarker(id);
     }
-
-
 };
 
+viewModel.currentVenue.subscribe(function(oldValue) {
+    if (oldValue) {
+        model.closeWindow(oldValue.id);
+    }
+}, null, "beforeChange");
+
+viewModel.currentVenue.subscribe(function(newValue) {
+    var id = newValue.id;
+    model.openWindow(id);
+    model.bounceMarker(id);
+});
+
 viewModel.filteredByName = ko.dependentObservable(function () {
+        var stringContains = function(string, substring) {
+            return string.indexOf(substring) >= 0;
+        };
         var filter = this.filter().toLowerCase();
         if (!filter) {
             return this.items();
         } else {
             return ko.utils.arrayFilter(this.items(), function (item) {
-                return model.stringContains(item.name.toLowerCase(), filter);
+                return stringContains(item.name.toLowerCase(), filter);
             })
         }
     }, viewModel);
