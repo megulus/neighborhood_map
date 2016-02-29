@@ -62,3 +62,8 @@ li:active {
     color: purple;
     background: grey;
 }
+
+.active-item {
+    color: purple;
+    background: grey;
+}

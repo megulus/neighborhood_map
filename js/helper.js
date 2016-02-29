@@ -18,7 +18,9 @@ var viewModel = {
 
     setCurrentVenue: function () {
         viewModel.currentVenue(this);
+        //$(this).toggleClass('active-item');
     }
+
 };
 
 viewModel.currentVenue.subscribe(function(oldValue) {
@@ -32,6 +34,8 @@ viewModel.currentVenue.subscribe(function(newValue) {
     model.openWindow(id);
     model.bounceMarker(id);
 });
+
+
 
 viewModel.filteredByName = ko.dependentObservable(function () {
         var stringContains = function(string, substring) {
@@ -85,6 +89,13 @@ var model = {
             ko.applyBindings(viewModel);
             viewModel.init();
         });
+        jqxhr.error(function (e) {
+            $('#venue-header').text('Unable to load venue information.');
+            $('#filter').css({'display' :  'none'});
+            ko.applyBindings(viewModel);
+            viewModel.init();
+        });
+
     },
 
     createMapMarker: function (venueObj, eventObj) {
@@ -139,6 +150,7 @@ var model = {
         }, 2000);
     },
 
+
     // utility function:
     stringStartsWith: function (string, startsWith) {
         string = string || '';
@@ -179,6 +191,10 @@ var initMap = function () {
     map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
 
+};
+
+var googleError = function () {
+    $('#map').text('Unable to load Google Maps');
 };
 
 model.init();
