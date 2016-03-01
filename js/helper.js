@@ -1,60 +1,3 @@
-
-
-var viewModel = {
-
-    items: ko.observableArray(),
-    filter: ko.observable(''),
-    currentVenue: ko.observable(),
-
-
-
-    init: function () {
-        var that = this;
-        model.venueLocations.forEach(function (venue) {
-            that.items.push(venue);
-        })
-    },
-
-
-    setCurrentVenue: function () {
-        viewModel.currentVenue(this);
-        //$(this).toggleClass('active-item');
-    }
-
-};
-
-viewModel.currentVenue.subscribe(function(oldValue) {
-    if (oldValue) {
-        model.closeWindow(oldValue.id);
-    }
-}, null, "beforeChange");
-
-viewModel.currentVenue.subscribe(function(newValue) {
-    var id = newValue.id;
-    model.openWindow(id);
-    model.bounceMarker(id);
-});
-
-
-
-viewModel.filteredByName = ko.dependentObservable(function () {
-        var stringContains = function(string, substring) {
-            return string.indexOf(substring) >= 0;
-        };
-        var filter = this.filter().toLowerCase();
-        if (!filter) {
-            return this.items();
-        } else {
-            return ko.utils.arrayFilter(this.items(), function (item) {
-                return stringContains(item.name.toLowerCase(), filter);
-            })
-        }
-    }, viewModel);
-
-
-
-
-
 var model = {
 
 
@@ -86,14 +29,16 @@ var model = {
                     that.venueLocations.push(new Venue(venueObj));
                 }
             });
-            ko.applyBindings(viewModel);
+            //ko.applyBindings(viewModel);
             viewModel.init();
+            ko.applyBindings(viewModel);
         });
         jqxhr.error(function (e) {
-            $('#venue-header').text('Unable to load venue information.');
-            $('#filter').css({'display' :  'none'});
-            ko.applyBindings(viewModel);
+            $('.venue-header').text('Unable to load venue information.');
+            $('.filter').css({'display' :  'none'});
+            //ko.applyBindings(viewModel);
             viewModel.init();
+            ko.applyBindings(viewModel);
         });
 
     },
@@ -115,6 +60,7 @@ var model = {
         });
 
         marker.addListener('click', function () {
+            map.setCenter(marker.position);
             infowindow.open(map, marker);
             marker.setAnimation(google.maps.Animation.BOUNCE);
             setTimeout(function () {
@@ -150,6 +96,27 @@ var model = {
         }, 2000);
     },
 
+    recenterMap: function (id) {
+        var marker = this.markerDict[id];
+        map.setCenter(marker.position);
+    },
+
+    filterMarkers: function (venueArray) {
+        var that = this;
+        var filteredIds = new Set();
+        venueArray.forEach(function(venue) {
+            var id = venue.id;
+            filteredIds.add(venue.id);
+        });
+        this.venueLocations.forEach(function(venue) {
+            if (filteredIds.has(venue.id)) {
+                that.markerDict[venue.id].setMap(map);
+            } else {
+                that.markerDict[venue.id].setMap(null);
+            }
+        });
+    },
+
 
     // utility function:
     stringStartsWith: function (string, startsWith) {
@@ -168,6 +135,78 @@ var model = {
 
 
 };
+
+model.init();
+
+var viewModel = {
+
+    items: ko.observableArray(),
+    filter: ko.observable(''),
+    currentVenue: ko.observable(),
+
+
+
+    init: function () {
+        var that = this;
+        model.venueLocations.forEach(function (venue) {
+            that.items.push(venue);
+        })
+    },
+
+
+    setCurrentVenue: function () {
+        viewModel.currentVenue(this);
+        //$(this).toggleClass('active-item');
+    }
+
+
+
+};
+
+
+
+viewModel.currentVenue.subscribe(function(oldValue) {
+    if (oldValue) {
+        model.closeWindow(oldValue.id);
+    }
+}, null, "beforeChange");
+
+viewModel.currentVenue.subscribe(function(newValue) {
+    var id = newValue.id;
+    model.openWindow(id);
+    model.bounceMarker(id);
+    model.recenterMap(id);
+});
+
+
+
+viewModel.filteredByName = ko.dependentObservable(function () {
+        var stringContains = function(string, substring) {
+            return string.indexOf(substring) >= 0;
+        };
+        var filter = this.filter().toLowerCase();
+        if (!filter) {
+            model.filterMarkers(this.items());
+            return this.items();
+        } else {
+            /*return ko.utils.arrayFilter(this.items(), function (item) {
+                return stringContains(item.name.toLowerCase(), filter);
+            })*/
+            var filterResults = ko.utils.arrayFilter(this.items(), function(item) {
+                return stringContains(item.name.toLowerCase(), filter);
+            });
+            model.filterMarkers(filterResults);
+            console.log(this.items().length);
+            return filterResults;
+
+        }
+    }, viewModel);
+
+
+
+
+
+
 
 var Venue = function (venuedata) {
     this.name = venuedata.name;
@@ -197,5 +236,5 @@ var googleError = function () {
     $('#map').text('Unable to load Google Maps');
 };
 
-model.init();
+//model.init();
 
