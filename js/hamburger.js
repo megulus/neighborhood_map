@@ -1,11 +1,5 @@
-/* hamburger.js
- *
- * Mobile Menu Hamburger
- * =====================
- * A hamburger menu for mobile websites
- *
- * Created by Thomas Zinnbauer YMC AG  |  http://www.ymc.ch
- * Date: 21.05.13
+/*
+ * Adapted from original code created by Thomas Zinnbauer YMC AG  |  http://www.ymc.ch
  */
 
 $(document).ready(function () {
@@ -17,8 +11,6 @@ $(document).ready(function () {
     //Open the menu
     $("#hamburger").click(function () {
 
-        //$('#filter').css('display', 'none');
-        //$('#list-container').css('display', 'none');
 
         $wrapper.css('min-height', $(window).height());
 
@@ -38,10 +30,6 @@ $(document).ready(function () {
             e.preventDefault()
         });
 
-        //set margin for the whole container with a $ UI animation
-        /*$container.animate({"marginLeft": ["70%", 'easeOutExpo']}, {
-            duration: 700
-        });*/
         $container.animate({
             "marginLeft": "70%"
         }, {
@@ -59,16 +47,6 @@ $(document).ready(function () {
         $container.unbind('touchmove');
 
         //set margin for the whole container back to original state with a $ UI animation
-        /*$container.animate({"marginLeft": ["-1", 'easeOutExpo']}, {
-            duration: 700,
-            complete: function () {
-                $wrapper.css('width', 'auto');
-                $wrapperLayer.css('display', 'none');
-                $('nav').css('opacity', 0);
-                $wrapper.css('min-height', 'auto');
-
-            }
-        });*/
         $container.animate({
             "marginLeft": "-1"
         }, {

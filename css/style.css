@@ -168,6 +168,11 @@ li:active {
     }
     #wrapper {
         width: auto;
-
+    }
+    #hamburger, #hamburger div {
+        display: none;
+    }
+    #responsive-header {
+        height:35px;
     }
 }
