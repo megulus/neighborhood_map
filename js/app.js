@@ -41,7 +41,8 @@ $(function () {
                 return $.getJSON(url);
             },
 
-
+            // create Venue objects and push into various data structures that
+            // will be used by the viewModel and googleMapView
             processEvents: function (response) {
                 var that = this;
                 data = response.responseJSON;
@@ -58,7 +59,8 @@ $(function () {
             },
 
 
-            // utility function:
+            // function to determine whether string contains substring
+            // used by the viewModel's filtering function
             stringContains: function (string, substring) {
                 return string.indexOf(substring) >= 0;
             },
@@ -81,6 +83,8 @@ $(function () {
 
 
     // View object only for Google Maps API related views (i.e., map markers, infowindows)
+    // separates this concern from the model, but since it is not handled by knockout.js,
+    // it is not going into the viewModel that interacts with knockout
     var googleMapView = {
 
 
@@ -99,6 +103,12 @@ $(function () {
 
 
         },
+
+
+        // remaining functions handle creation of map markers and infowindows, as
+        // well as the functions that control their behavior when activated by a direct
+        // click or a click in the list of venues
+
 
         createMapMarker: function (venueObj, eventObj) {
             var marker = new google.maps.Marker({
@@ -184,6 +194,7 @@ $(function () {
 
     };
 
+    // an "octopus" for the google map view
     var helper = {
 
 
