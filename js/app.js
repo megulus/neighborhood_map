@@ -102,7 +102,7 @@ $(function () {
             });
             var contentStr = '<h3>Venue: ' + venueObj.name + '</h3>' + '<p>Address: '
                 + venueObj.address + ', ' + venueObj.extended_address + '</p>'
-                + '<p>Upcoming Event: <a href="' + eventObj.url + '">' + eventObj.title
+                + '<p>Upcoming Event: <a target="_blank" href="' + eventObj.url + '">' + eventObj.title
                 + '</a></p>' + '<p>Date: '
                 + (new Date(eventObj.datetime_local)).toLocaleDateString() + '</p>'
                 + '<p>Event Type: ' + eventObj.taxonomies[0].name + '</p>';
