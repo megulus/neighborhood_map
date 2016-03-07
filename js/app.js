@@ -104,7 +104,8 @@ $(function () {
             var marker = new google.maps.Marker({
                 position: {lat: venueObj.location.lat, lng: venueObj.location.lon},
                 title: venueObj.name,
-                map: map
+                map: map,
+                icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
             });
             var contentStr = '<h3>Venue: ' + venueObj.name + '</h3>' + '<p>Address: '
                 + venueObj.address + ', ' + venueObj.extended_address + '</p>'
@@ -116,14 +117,18 @@ $(function () {
                 content: contentStr
             });
 
+            infowindow.addListener('closeclick', function () {
+                marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
+            });
+
             marker.addListener('click', function () {
                 map.setCenter(marker.position);
                 infowindow.open(map, marker);
+                marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
                 marker.setAnimation(google.maps.Animation.BOUNCE);
                 setTimeout(function () {
                     marker.setAnimation(null);
                 }, 2000);
-
 
             });
             this.markerDict[venueObj.id] = marker;
@@ -135,12 +140,16 @@ $(function () {
             var marker = this.markerDict[id];
             var infowindow = this.infowindowDict[id];
             infowindow.open(map, marker);
+            // highlighted marker behavior concurrent with window opening:
+            marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
         },
 
         closeWindow: function (id) {
             var marker = this.markerDict[id];
             var infowindow = this.infowindowDict[id];
             infowindow.close(map, marker);
+            // un-highlighting marker concurrent with closing window:
+            marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
         },
 
         bounceMarker: function (id) {
@@ -150,6 +159,7 @@ $(function () {
                 marker.setAnimation(null);
             }, 2000);
         },
+
 
         recenterMap: function (id) {
             var marker = this.markerDict[id];
@@ -215,6 +225,7 @@ $(function () {
         items: ko.observableArray(),
         filter: ko.observable(''),
         currentVenue: ko.observable(),
+        selectedVenueId: ko.observable(),
 
 
         init: function () {
@@ -227,7 +238,7 @@ $(function () {
 
         setCurrentVenue: function () {
             viewModel.currentVenue(this);
-            //$(this).toggleClass('active-item');
+            viewModel.selectedVenueId(this.id);
         }
 
 

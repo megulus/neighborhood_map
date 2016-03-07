@@ -134,6 +134,7 @@ li:first-child {
 
 li:hover {
     background: cornflowerblue;
+    cursor: pointer;
 }
 
 li:active {
