@@ -1,1 +1,0 @@
-var map,initMap=function(){var e={center:{lat:40.663179,lng:-73.969167},zoom:12};map=new google.maps.Map(document.getElementById("map"),e)},googleError=function(){$("#responsive-header").text("Unable to load Google Maps")};

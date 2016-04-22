@@ -8,14 +8,37 @@
     <script src="js/lib/jquery-2.2.1.min.js"></script>
     <script src="js/lib/knockout-3.4.0.js"></script>
 
-    <script src="js/init.js"></script>
+
+    <script>
+        var map;
+        var initMap = function () {
+
+            var mapOptions = {
+                center: {lat: 40.663179, lng: -73.969167},
+                zoom: 12
+            };
+
+            map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+
+        };
+
+        var googleError = function () {
+            $('#responsive-header').text('Unable to load Google Maps');
+        };
+    </script>
 
     <meta name="viewport" content="width=device-width">
 </head>
 <body>
+
+
+
+
 <div id="container">
 
-    <div id="responsive-header">
+   <div id="responsive-header">
+        <div class="header">Brooklyn Event Venues</div>
         <div id="hamburger">
             <div></div>
             <div></div>
@@ -25,12 +48,12 @@
 
 
     <nav>
-        <h3 class="filter" id="mobile-filter">Filter: <input data-bind="value: filter, valueUpdate: 'afterkeydown'">
+        <h3 class="filter" id="mobile-filter">Filter: <input data-bind="value: filter, valueUpdate: 'afterkeydown'" autofocus>
         </h3>
         <div id="mobile-list-container">
             <h3 class="venue-header"> Venues:</h3>
             <ul data-bind="foreach: filteredByName">
-                <li data-bind="text: name, click: $parent.setCurrentVenue"></li>
+                <li data-bind="text: name, click: $parent.setCurrentVenue, css: { 'active-item': $parent.selectedVenueId() == $data.id }"></li>
             </ul>
         </div>
     </nav>
@@ -40,7 +63,7 @@
 
     <div id="wrapper">
         <div id="map"></div>
-        <h3 class="filter" id="filter">Filter: <input data-bind="value: filter, valueUpdate: 'afterkeydown'"></h3>
+        <h3 class="filter" id="filter">Filter: <input data-bind="value: filter, valueUpdate: 'afterkeydown'" autofocus></h3>
         <div id="list-container">
             <h3 id="venue-header">Venues:</h3>
             <ul data-bind="foreach: filteredByName">
@@ -50,15 +73,13 @@
     </div>
 
 
-
-    <script src="js/hamburger.js"></script>
-    <script async
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwp2FaIFGQyGZfMJvXVngGUYGSHGf2mIM&callback=initMap"
-            onerror="googleError()"></script>
-    <script defer src="js/app.js"></script>
-
-
-
 </div>
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwp2FaIFGQyGZfMJvXVngGUYGSHGf2mIM&callback=initMap"
+        onerror="googleError()"></script>
+<script defer src="js/app.js"></script>
+
+
 </body>
 </html>

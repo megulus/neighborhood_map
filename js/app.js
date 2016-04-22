@@ -1,68 +1,62 @@
-
-
-
-
 $(function () {
 
     // Model object to handle venue data
     var model = {
 
 
-            init: function () {
-                this.venueLocations = [];
-                this.venueIDs = new Set();
-                this.venueEventDict = {};
-            },
+        init: function () {
+            this.venueLocations = [];
+            this.venueIDs = new Set();
+            this.venueEventDict = {};
+        },
 
-            findEvents: function () {
-                var eventsUrl = 'https://api.seatgeek.com/2/events?';
-                var params = {
-                    'venue.city': 'Brooklyn',
-                    per_page: 300
-                };
-                var url = eventsUrl + $.param(params);
-                return $.getJSON(url);
-            },
+        findEvents: function () {
+            var eventsUrl = 'https://api.seatgeek.com/2/events?';
+            var params = {
+                'venue.city': 'Brooklyn',
+                per_page: 300
+            };
+            var url = eventsUrl + $.param(params);
+            return $.getJSON(url);
+        },
 
-            // create Venue objects and push into various data structures that
-            // will be used by the viewModel and googleMapView
-            processEvents: function (response) {
-                var that = this;
-                data = response.responseJSON;
-                var events = data.events;
-                events.forEach(function (eventObj) {
-                    var venueObj = eventObj.venue;
-                    var id = venueObj.id;
-                    if (venueObj.state === 'NY' && !that.venueIDs.has(id)) {
-                        that.venueEventDict[id] = [venueObj, eventObj];
-                        that.venueLocations.push(that.Venue(venueObj));
-                        that.venueIDs.add(id);
-                    }
-                });
-            },
-
-
-            // function to determine whether string contains substring
-            // used by the viewModel's filtering function
-            stringContains: function (string, substring) {
-                return string.indexOf(substring) >= 0;
-            },
-
-            Venue: function (venuedata) {
-                return {
-                    name: venuedata.name,
-                    address: venuedata.address,
-                    state: venuedata.state,
-                    cityStZip: venuedata.extended_address,
-                    id: venuedata.id,
-                    lat: venuedata.location.lat,
-                    lng: venuedata.location.lon
-                };
-            }
-
-        };
+        // create Venue objects and push into various data structures that
+        // will be used by the viewModel and googleMapView
+        processEvents: function (response) {
+            var that = this;
+            data = response.responseJSON;
+            var events = data.events;
+            events.forEach(function (eventObj) {
+                var venueObj = eventObj.venue;
+                var id = venueObj.id;
+                if (venueObj.state === 'NY' && !that.venueIDs.has(id)) {
+                    that.venueEventDict[id] = [venueObj, eventObj];
+                    that.venueLocations.push(that.Venue(venueObj));
+                    that.venueIDs.add(id);
+                }
+            });
+        },
 
 
+        // function to determine whether string contains substring
+        // used by the viewModel's filtering function
+        stringContains: function (string, substring) {
+            return string.indexOf(substring) >= 0;
+        },
+
+        Venue: function (venuedata) {
+            return {
+                name: venuedata.name,
+                address: venuedata.address,
+                state: venuedata.state,
+                cityStZip: venuedata.extended_address,
+                id: venuedata.id,
+                lat: venuedata.location.lat,
+                lng: venuedata.location.lon
+            };
+        }
+
+    };
 
 
     // View object only for Google Maps API related views (i.e., map markers, infowindows)
@@ -210,7 +204,84 @@ $(function () {
         }
     };
 
+    // handle the hamburger menu view/collapse
+    var mobileMenu = {
 
+        init: function () {
+
+            var that = this;
+
+            this.$wrapper = $('#wrapper');
+            this.$wrapperLayer = $('#wrapperLayer');
+            this.$container = $('#container');
+            //this.$mobileMenuItem = $('.collapsible-menu-item');
+            this.$hamburger = $('#hamburger');
+
+            this.$hamburger.click(function () {
+                that.openMenu();
+            });
+
+            this.$wrapperLayer.click(function () {
+                that.closeMenu();
+            })
+
+        },
+
+        openMenu: function () {
+
+            this.$wrapper.css('min-height', $(window).height());
+
+            $('nav').css('opacity', 1);
+
+            //set the width of primary wrapper container -> wrapper should not scale while animating
+            var contentWidth = this.$wrapper.width();
+
+            //set the wrapper with the width that it has originally
+            this.$wrapper.css('width', contentWidth);
+
+            //display a layer to disable clicking and scrolling on the content while menu is shown
+            this.$wrapperLayer.css('display', 'block');
+
+            //disable all scrolling on mobile devices while menu is shown
+            this.$container.bind('touchmove', function (e) {
+                e.preventDefault()
+            });
+
+            this.$container.animate({
+                "marginLeft": "70%"
+            }, {
+                duration: 700,
+                easing: "linear"
+            });
+        },
+
+        closeMenu: function () {
+
+            var that = this;
+
+            //enable all scrolling on mobile devices when menu is closed
+            that.$container.unbind('touchmove');
+
+            //set margin for the whole container back to original state with a $ UI animation
+            that.$container.animate({
+                "marginLeft": "-1"
+            }, {
+                duration: 700,
+                easing: "linear",
+                complete: function () {
+                    that.$wrapper.css('width', 'auto');
+                    that.$wrapperLayer.css('display', 'none');
+                    $('nav').css('opacity', 0);
+                    that.$wrapper.css('min-height', 'auto');
+                }
+            })
+
+        }
+
+
+    };
+
+    mobileMenu.init();
 
 
     // viewModel object handles knockout.js functionality
@@ -233,6 +304,8 @@ $(function () {
         setCurrentVenue: function () {
             viewModel.currentVenue(this);
             viewModel.selectedVenueId(this.id);
+            // also close the hamburger menu if open:
+            mobileMenu.closeMenu();
         }
 
 
@@ -267,12 +340,10 @@ $(function () {
                 return stringContains(item.name.toLowerCase(), filter);
             });
             googleMapView.filterMarkers(filterResults);
-            console.log(this.items().length);
             return filterResults;
 
         }
     }, viewModel);
-
 
 
 });

@@ -12,6 +12,8 @@ body {
     overflow-x: hidden;
 }
 
+
+
 #responsive-header {
     position: fixed;
     width: 100%;
@@ -49,6 +51,11 @@ body {
     height: 2px;
     margin-top: 3px;
     width: 90%;
+}
+
+.header {
+    font-size: 30px;
+    text-align: center;
 }
 
 nav {
