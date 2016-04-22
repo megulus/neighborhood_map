@@ -4,9 +4,10 @@
 
     <meta charset="UTF-8">
     <title>Neighborhood Explorer</title>
+
+    <!-- build:css ./css/site.css -->
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/lib/jquery-2.2.1.min.js"></script>
-    <script src="js/lib/knockout-3.4.0.js"></script>
+    <!-- endbuild -->
 
 
     <script>
@@ -33,11 +34,9 @@
 <body>
 
 
-
-
 <div id="container">
 
-   <div id="responsive-header">
+    <div id="responsive-header">
         <div class="header">Brooklyn Event Venues</div>
         <div id="hamburger">
             <div></div>
@@ -48,7 +47,8 @@
 
 
     <nav>
-        <h3 class="filter" id="mobile-filter">Filter: <input data-bind="value: filter, valueUpdate: 'afterkeydown'" autofocus>
+        <h3 class="filter" id="mobile-filter">Filter: <input data-bind="value: filter, valueUpdate: 'afterkeydown'"
+                                                             autofocus>
         </h3>
         <div id="mobile-list-container">
             <h3 class="venue-header"> Venues:</h3>
@@ -63,7 +63,8 @@
 
     <div id="wrapper">
         <div id="map"></div>
-        <h3 class="filter" id="filter">Filter: <input data-bind="value: filter, valueUpdate: 'afterkeydown'" autofocus></h3>
+        <h3 class="filter" id="filter">Filter: <input data-bind="value: filter, valueUpdate: 'afterkeydown'" autofocus>
+        </h3>
         <div id="list-container">
             <h3 id="venue-header">Venues:</h3>
             <ul data-bind="foreach: filteredByName">
@@ -78,8 +79,11 @@
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwp2FaIFGQyGZfMJvXVngGUYGSHGf2mIM&callback=initMap"
         onerror="googleError()"></script>
+<!-- build:js ./js/site.js -->
+<script src="js/lib/jquery-2.2.1.min.js"></script>
+<script src="js/lib/knockout-3.4.0.js"></script>
 <script defer src="js/app.js"></script>
-
+<!-- endbuild -->
 
 </body>
 </html>

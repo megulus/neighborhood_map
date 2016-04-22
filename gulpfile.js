@@ -1,7 +1,10 @@
 var gulp = require('gulp'),
     minifyhtml = require('gulp-htmlmin'),
     minifycss = require('gulp-minify-css'),
-    uglify = require('gulp-uglify');
+    uglify = require('gulp-uglify'),
+    debug = require('gulp-debug'),
+    ghpages = require('gulp-gh-pages'),
+    usemin = require('gulp-usemin');
 
 
 
@@ -35,9 +38,21 @@ gulp.task('uglify', function () {
 });
 
 
+gulp.task('deploy', function () {
+    return gulp.src('./build/**/*')
+        .pipe(debug({ title: 'deploy-debug' }))
+        .pipe(ghpages())
+});
+
+gulp.task('usemin', function () {
+    return gulp.src('*.html')
+        .pipe(usemin({
+            html: [minifyhtml({ collapseWhitespace: true })],
+            css: [minifycss()],
+            js: [uglify(), 'concat']
+        }))
+        .pipe(gulp.dest('build'))
+});
 
 
-
-
-
-gulp.task('default', ['html', 'minifycss', 'uglify']);
+gulp.task('default', ['usemin']);
