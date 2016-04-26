@@ -37,17 +37,19 @@
 <div id="container">
 
     <div id="responsive-header">
-        <div class="header">Brooklyn Event Venues</div>
+        <div class="header">What's happening in Brooklyn?</div>
         <div id="hamburger">
-            <div></div>
-            <div></div>
-            <div></div>
+            <!--<div class="burger-container">
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+            </div>-->
         </div>
     </div>
 
 
     <nav>
-        <h3 class="filter" id="mobile-filter">Filter: <input data-bind="value: filter, valueUpdate: 'afterkeydown'"
+        <h3 class="filter" id="mobile-filter">Filter: <input placeholder="e.g., 'BAM'" data-bind="value: filter, valueUpdate: 'afterkeydown'"
                                                              autofocus>
         </h3>
         <div id="mobile-list-container">
@@ -63,7 +65,7 @@
 
     <div id="wrapper">
         <div id="map"></div>
-        <h3 class="filter" id="filter">Filter: <input data-bind="value: filter, valueUpdate: 'afterkeydown'" autofocus>
+        <h3 class="filter" id="filter">Filter: <input placeholder="e.g., 'BAM'" data-bind="value: filter, valueUpdate: 'afterkeydown'" autofocus>
         </h3>
         <div id="list-container">
             <h3 id="venue-header">Venues:</h3>
