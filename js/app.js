@@ -11,7 +11,7 @@ $(function () {
         },
 
         findEvents: function () {
-            var eventsUrl = 'https://api.seatgeek.com/2/events?';
+            var eventsUrl = 'https://api.seatgeek.com/2/events?client_id=NjY5MzI1MHwxNDg1MzU1MTAzLjU&client_secret=3afcddea8ea77b7efa1d4b0bcf04d99dc06fde8c4de4cb541543e0d1fa162044';
             var params = {
                 'venue.city': 'Brooklyn',
                 per_page: 300

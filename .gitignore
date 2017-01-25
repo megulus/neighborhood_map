@@ -1,6 +1,9 @@
 .idea
 .DS_Store
-.publish
 
+.seatgeek
+
+
+.publish/
 node_modules/
 build/
