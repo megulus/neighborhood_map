@@ -11,10 +11,12 @@ $(function () {
         },
 
         findEvents: function () {
-            var eventsUrl = 'https://api.seatgeek.com/2/events?client_id=NjY5MzI1MHwxNDg1MzU1MTAzLjU&client_secret=3afcddea8ea77b7efa1d4b0bcf04d99dc06fde8c4de4cb541543e0d1fa162044';
+            var eventsUrl = 'https://api.seatgeek.com/2/events?';
             var params = {
+                'client_id': 'NjY5MzI1MHwxNDg1MzU1MTAzLjU',
+                'client_secret': '3afcddea8ea77b7efa1d4b0bcf04d99dc06fde8c4de4cb541543e0d1fa162044',
                 'venue.city': 'Brooklyn',
-                per_page: 300
+                'per_page': '300'
             };
             var url = eventsUrl + $.param(params);
             return $.getJSON(url);
